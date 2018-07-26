@@ -1,0 +1,54 @@
+#include "List.h"
+#include <iostream>
+using namespace std;
+
+#define size 5 
+int main()
+{
+    int e1 = 0;
+    int e2 = 1;
+    int e3 = 2;
+    int e4 = 3;
+    int e5 = 4;
+ 
+    List<int> *p = new List<int>(size);
+    cout<<"p->insertElem(0,&e1):"<<p->insertElem(0, &e1)<<endl;
+    cout<<"p->insertElem(1,&e2):"<<p->insertElem(1, &e2)<<endl;
+    cout<<"p->insertElem(2,&e3):"<<p->insertElem(2, &e3)<<endl;
+    cout<<"p->insertElem(3,&e4):"<<p->insertElem(3, &e4)<<endl;
+    cout<<"p->insertElem(2,&e5):"<<p->insertElem(2, &e5)<<endl;
+    p->listTraverse();
+    cout<<endl;
+
+    int temp;
+    cout<<"p->getElem(1,&temp):"<<p->getElem(1,&temp);
+    cout<<",temp:"<<temp<<endl;
+
+    cout<<"p->locateElem(&e2):"<<p->locateElem(&e2)<<endl;
+
+    cout<<"p->priorElem(&e2,&temp):"<<p->priorElem(&e2,&temp);
+    cout<<",temp:"<<temp<<endl;
+    //cout<<"p->priorElem(&e2,&temp):"<<p->priorElem(&e2,&temp)<<cout<<",temp:"<<temp<<endl;//把上面两句代码合并成一句代码,则不能正确打印temp的值,一个隐藏的好深的bug
+
+    cout<<"p->nextElem(&e2,&temp):"<<p->nextElem(&e2,&temp);
+    cout<<",temp:"<<temp<<endl; 
+
+
+    cout<<"p->deleteEelem(0,&temp):"<<p->deleteElem(0,&temp)<<endl;
+    cout<<"temp:"<<temp<<endl;
+    p->listTraverse();
+    cout<<endl;
+
+
+    cout<<"p->listEmpty():"<<p->listEmpty()<<endl; 
+    cout<<"p->listLength():"<<p->listLength()<<endl;
+    p->clearList();
+    cout<<"p->listEmpty():"<<p->listEmpty()<<endl;
+    cout<<"p->listLength():"<<p->listLength()<<endl;
+
+//    p->insertElem(4, &e6);
+    
+    delete p;
+    p = NULL;
+    return 0;
+}

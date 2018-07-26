@@ -1,0 +1,2 @@
+使用vector存储数字3，6,8,4，并遍历。
+使用map存储S-Shang Hai   B-Bei Jing    G-Guang Zhou，并遍历

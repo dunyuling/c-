@@ -1,0 +1,5 @@
+定义Time类，数据成员：m_iHour, m_iMinute，m_iSecond 成员函数：构造函数
+定义Watch类，数据成员：m_tTime, 成员函数：构造函数，display用于显示时间
+Time类是Watch类的友元
+
+注：由于编译器不同，友元类有两种写法。1、friend class 类名; 2、friend 类名;
