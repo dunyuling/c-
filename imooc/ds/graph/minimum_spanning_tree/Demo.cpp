@@ -49,7 +49,8 @@ int main()
     pMap->setValueToMatrixForUndirectedGraph(4,5,9);
 
     
-    pMap->primTree(0);
+//    pMap->primTree(0);
+    pMap->kruskalTree();
 
     return 0;
 }

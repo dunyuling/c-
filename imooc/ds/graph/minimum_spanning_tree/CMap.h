@@ -22,6 +22,7 @@ public:
     void breadthFirstTraverse(int nodeIndex);
  
     void primTree(int nodeIndex); //普里姆最小生成树
+    void kruskalTree();           //克鲁斯卡尔最小生成树
     
 
 private:
@@ -29,6 +30,8 @@ private:
     void breadthFirstTraverseImpl(vector<int> preVec);
    
     int getMinEdge(vector<Edge> );
+    bool isInSet(vector<int> ,int );
+    void mergeNodeSet(vector<int> &, vector<int> );    
 private:
     int m_iCapacity;    //图中最多可以容纳的顶点数
     int m_iNodeCount;   //已经添加的顶点个数

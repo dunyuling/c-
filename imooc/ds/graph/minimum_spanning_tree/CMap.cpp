@@ -21,6 +21,8 @@ CMap::~CMap()
     m_pNodeArray = NULL;
     delete []m_pMatrix;
     m_pMatrix = NULL; 
+    delete []m_pEdge;
+    m_pEdge = NULL;
 }
 
 bool CMap::addNode(Node *pNode)
@@ -253,4 +255,126 @@ int CMap::getMinEdge(vector<Edge> edgeVec)
   	}
     }
     return minEdgeIndex;
+}
+
+void CMap::kruskalTree()
+{
+    int val;
+    int edgeCount = 0;
+
+    //定义存放结点集合的数组
+    vector<vector<int> > nodeSets;
+
+    //第一步:取出所有边
+    vector<Edge> edgeVec;
+    for(int i=0;i<m_iCapacity;i++)
+    {
+	for(int j=i+1;j<m_iCapacity;j++)
+ 	{
+	    getValueFromMatrix(i,j,val);
+	    if(val!=0)
+	    {
+		Edge edge(i,j,val);
+		edgeVec.push_back(edge);
+   	    }
+ 	}
+    }
+
+
+    //第二步:从所有边中取出组成最小生成树的边
+    //1.找到算法结束条件
+    while(edgeCount<m_iCapacity-1)
+    {
+        //2.从边集合中找到最小边
+        int minEdgeIndex = getMinEdge(edgeVec); 
+	/*
+	Edge minEdge = edgeVec[minEdgeIndex];//产生新的Edge对象,将使得edgeVec[i].isSelected()判断失效
+	minEdge.setSelected(true);
+	*/
+	edgeVec[minEdgeIndex].setSelected(true);
+
+        //3.找出最小边连接的点
+	int nodeAIndex = edgeVec[minEdgeIndex].getNodeIndexA(); 
+	int nodeBIndex = edgeVec[minEdgeIndex].getNodeIndexB();
+//	cout<<nodeAIndex<<","<<nodeBIndex<<endl;
+
+	bool nodeAIsInSet = false;
+	bool nodeBIsInSet = false;
+
+ 	int nodeAInSetLabel = -1;
+	int nodeBInSetLabel = -1;
+
+        //4.找出点所在的点集合
+	for(int i=0;i<nodeSets.size();i++)
+	{
+            nodeAIsInSet = isInSet(nodeSets[i],nodeAIndex);
+//	    cout<<"a:"<<nodeAIndex<<","<<nodeAIsInSet<<endl;
+	    if(nodeAIsInSet)
+	    {
+		nodeAInSetLabel = i;
+	    }
+	}
+
+	for(int i=0;i<nodeSets.size();i++)
+	{
+            nodeBIsInSet = isInSet(nodeSets[i],nodeBIndex);
+	    if(nodeBIsInSet)
+	    {
+		nodeBInSetLabel = i;
+	    }
+	}
+
+        //5.根据点所在集合的不同做出不同的处理
+	if(nodeAInSetLabel == -1 && nodeBInSetLabel == -1)
+	{
+	    vector<int> vec;
+	    vec.push_back(nodeAIndex);
+	    vec.push_back(nodeBIndex);
+	    nodeSets.push_back(vec);
+	}
+	else if(nodeAInSetLabel == -1 && nodeBInSetLabel != -1)
+	{
+	    nodeSets[nodeBInSetLabel].push_back(nodeAIndex); 
+	}
+        else if(nodeAInSetLabel != -1 && nodeBInSetLabel == -1)
+	{
+	    nodeSets[nodeAInSetLabel].push_back(nodeBIndex);
+	}
+	else if(nodeAInSetLabel != -1 && nodeBInSetLabel != -1 && nodeAInSetLabel != nodeBInSetLabel)
+	{
+	    mergeNodeSet(nodeSets[nodeAInSetLabel],nodeSets[nodeBInSetLabel]);
+	    for(int k=nodeBInSetLabel;k<nodeSets.size()-1;k++)
+	    {
+		nodeSets[k] = nodeSets[k+1];
+	    } 
+	}
+	else if(nodeAInSetLabel != -1 && nodeBInSetLabel != -1 && nodeAInSetLabel == nodeBInSetLabel)
+	{
+	    continue;
+	}
+ 	m_pEdge[edgeCount++] = edgeVec[minEdgeIndex];	
+	cout<<edgeVec[minEdgeIndex].getNodeIndexA()<<"---"<<edgeVec[minEdgeIndex].getNodeIndexB()<<" "<<edgeVec[minEdgeIndex].getWeightValue()<<endl;
+//	cout<<edgeCount<<","<<m_iCapacity<<endl;
+//	cout<<endl;
+    }
+}
+
+bool CMap::isInSet(vector<int> nodeSet,int nodeIndex)  
+{
+    for(int i=0;i<nodeSet.size();i++)
+    {
+	if(nodeSet[i] == nodeIndex)
+	{
+	    return true;   
+	}
+    }
+    return false;
+}
+
+void CMap::mergeNodeSet(vector<int> &nodeSetA, vector<int> nodeSetB)
+{
+    for(int i=0;i<nodeSetB.size();i++)
+    {
+	nodeSetA.push_back(nodeSetB[i]);
+    } 
 }
