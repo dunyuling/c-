@@ -33,8 +33,8 @@ template <typename T>
 List<T>::List()
 {
     this->m_pList = new Node<T>;
-    T t;
-    this->m_pList->setData(t);
+//    T t;
+//    this->m_pList->setData(t);
     this->m_pList->setNext(NULL);
     this->m_iLength = 0;
 }
