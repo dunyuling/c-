@@ -18,6 +18,7 @@
 
 #include "Node.h"
 #include "CMap.h"
+#include <cstring>
 
 int main()
 {
@@ -51,6 +52,21 @@ int main()
     
 //    pMap->primTree(0);
     pMap->kruskalTree();
+
+    delete pMap;
+    pMap = NULL;
+    delete pNodeA;
+    pNodeA = NULL;
+    delete pNodeB;
+    pNodeB = NULL;
+    delete pNodeC;
+    pNodeC = NULL;
+    delete pNodeD;
+    pNodeD = NULL;
+    delete pNodeE;
+    pNodeE = NULL;
+    delete pNodeF;
+    pNodeF = NULL;
 
     return 0;
 }
